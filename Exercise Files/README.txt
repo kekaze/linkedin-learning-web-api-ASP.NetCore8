@@ -1,0 +1,1 @@
+Exercise files are structured in folders, ordered by clips. XX_YYb denotes the begin state of the files in clip YY in chapter XX, whereas XX_YYe contains the end state. If there are no begin state files for a clip, it usually works with the end state of the previous clip with code.
