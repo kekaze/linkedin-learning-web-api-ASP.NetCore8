@@ -24,9 +24,14 @@ namespace HPlusSport.API.Controllers
         }
         // [HttpGet, Route("api/[controller]/{id}")]
         [HttpGet("{id}")] // this is the same as the code above
-        public Product GetProduct(int id)
+        public ActionResult GetProduct(int id)
         {
-            return _context.Products.Find(id);
+            var product = _context.Products.Find(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
         }
     }
 }
