@@ -1,3 +1,4 @@
+using System.Data.Common;
 using HPlusSport.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,12 @@ namespace HPlusSport.API.Controllers
         public ActionResult GetAllProducts()
         {
             return Ok(_context.Products.ToArray());
+        }
+        // [HttpGet, Route("api/[controller]/{id}")]
+        [HttpGet("{id}")] // this is the same as the code above
+        public Product GetProduct(int id)
+        {
+            return _context.Products.Find(id);
         }
     }
 }
