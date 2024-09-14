@@ -1,6 +1,7 @@
 using HPlusSport.API.Models;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -29,5 +30,31 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope()) 
+{
+    var db = scope.ServiceProvider.GetRequiredService<ShopContext>();
+    await db.Database.EnsureCreatedAsync();
+}
+
+app.MapGet("/products", async (ShopContext _context) =>
+{
+    return await _context.Products.ToArrayAsync();
+});
+
+app.MapGet("/products/{id}", async (int id, ShopContext _context) =>
+{
+    var product = await _context.Products.FindAsync();
+    if (product == null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(product);
+});
+
+app.MapGet("/products/available", async (ShopContext _context) =>
+{
+    return await _context.Products.Where(product => product.IsAvailable).ToArrayAsync();
+});
 
 app.Run();
