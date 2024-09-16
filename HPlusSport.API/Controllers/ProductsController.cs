@@ -41,5 +41,17 @@ namespace HPlusSport.API.Controllers
             var productsOnStock = await _context.Products.Where(x => x.IsAvailable).ToArrayAsync();
             return Ok(productsOnStock);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> PostProduct(Product product)
+        {
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(
+            nameof(GetProduct),
+            new { id = product.Id },
+            product);
+        }
     }
 }
