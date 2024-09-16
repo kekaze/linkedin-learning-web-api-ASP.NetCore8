@@ -45,6 +45,10 @@ namespace HPlusSport.API.Controllers
         [HttpPost]
         public async Task<ActionResult> PostProduct(Product product)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
