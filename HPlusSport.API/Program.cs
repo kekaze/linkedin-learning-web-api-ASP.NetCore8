@@ -48,7 +48,7 @@ app.MapGet("/products", async (ShopContext _context) =>
 
 app.MapGet("/products/{id}", async (int id, ShopContext _context) =>
 {
-    var product = await _context.Products.FindAsync();
+    var product = await _context.Products.FindAsync(id);
     if (product == null)
     {
         return Results.NotFound();
@@ -77,7 +77,7 @@ app.MapPost("/products", async (ShopContext _context, Product product) =>
     product);
 });
 
-app.MapPut("/products", async (int id, ShopContext _context, Product product) =>
+app.MapPut("/products{id}", async (int id, ShopContext _context, Product product) =>
 {
     if (id != product.Id) // if the id on the route is not the id on the payload
     {
