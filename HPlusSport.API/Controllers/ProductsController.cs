@@ -64,7 +64,7 @@ namespace HPlusSport.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutProduct(int id, Product product)
+        public async Task<ActionResult> PutProduct([FromRoute] int id, [FromBody] Product product) // .Net is smart enough to know where an argument is coming from but it is a best practice to provide the attribute [FromRoute] and [FromBody] for a better code readability
         {
             if (id != product.Id) // if the id on the route is not the id on the payload
             {
@@ -86,6 +86,19 @@ namespace HPlusSport.API.Controllers
                 }
             }
             return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteProduct([FromRoute] int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return Ok(product);
         }
     }
 }
