@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using HPlusSport.API.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -57,9 +58,57 @@ using (var scope = app.Services.CreateScope())
     await db.Database.EnsureCreatedAsync();
 }
 
-app.MapGet("/products", async (ShopContext _context) =>
+app.MapGet("/products", async (ShopContext _context, [AsParameters] ProductQueryParameters queryParameters) =>
 {
-    return await _context.Products.ToArrayAsync();
+    //return await _context.Products.ToArrayAsync();
+    IQueryable<Product> products = _context.Products;
+
+    if (queryParameters.MinPrice != null)
+    {
+        products = products.Where(
+            p => p.Price >= queryParameters.MinPrice.Value);
+    }
+
+    if (queryParameters.MaxPrice != null)
+    {
+        products = products.Where(
+            p => p.Price <= queryParameters.MaxPrice.Value);
+    }
+
+    if (!string.IsNullOrEmpty(queryParameters.Search))
+    {
+        products = products.Where(
+            p => p.Sku.ToLower().Contains(queryParameters.Search.ToLower()) ||
+                 p.Name.ToLower().Contains(queryParameters.Search.ToLower()));
+    }
+
+    if (!string.IsNullOrEmpty(queryParameters.Sku))
+    {
+        products = products.Where(
+            p => p.Sku == queryParameters.Sku);
+    }
+
+    if (!string.IsNullOrEmpty(queryParameters.Name))
+    {
+        products = products.Where(
+            p => p.Name.ToLower().Contains(queryParameters.Name.ToLower()));
+    }
+
+    if (!string.IsNullOrEmpty(queryParameters.SortBy))
+    {
+        if (typeof(Product).GetProperty(queryParameters.SortBy) != null)
+        {
+            products = products.OrderByCustom(
+                queryParameters.SortBy,
+                queryParameters.SortOrder);
+        }
+    }
+
+    products = products
+        .Skip(queryParameters.Size * (queryParameters.Page - 1))
+        .Take(queryParameters.Size);
+
+    return Results.Ok(await products.ToArrayAsync());
 });
 
 app.MapGet("/products/{id}", async (int id, ShopContext _context) =>
