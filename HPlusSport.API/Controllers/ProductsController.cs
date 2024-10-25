@@ -35,6 +35,13 @@ namespace HPlusSport.API.Controllers
                     p => p.Price <= queryParameters.MaxPrice.Value);
             }
 
+            if (!string.IsNullOrEmpty(queryParameters.Search))
+            {
+                products = products.Where(
+                    p => p.Sku.ToLower().Contains(queryParameters.Search.ToLower()) ||
+                         p.Name.ToLower().Contains(queryParameters.Search.ToLower()));
+            }
+
             if (!string.IsNullOrEmpty(queryParameters.Sku))
             {
                 products = products.Where(
@@ -93,9 +100,10 @@ namespace HPlusSport.API.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(
-            nameof(GetProduct),
-            new { id = product.Id },
-            product);
+                nameof(GetProduct),
+                new { id = product.Id },
+                product
+             );
         }
 
         [HttpPut("{id}")]
