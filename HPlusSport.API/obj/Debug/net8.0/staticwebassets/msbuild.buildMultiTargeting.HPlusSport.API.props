@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\HPlusSport.API.props" />
-</Project>

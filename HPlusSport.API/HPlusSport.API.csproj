@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
     <PackageReference Include="Microsoft.EntityFrameWorkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameWorkCore.InMemory" Version="8.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
