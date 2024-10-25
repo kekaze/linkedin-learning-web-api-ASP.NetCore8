@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "7W0mzssNEZA=",
+  "dgSpecHash": "EQGdb6oIejI=",
   "success": true,
   "projectFilePath": "C:\\Users\\jroyc\\Documents\\Programming\\CsharpProjects\\linkedin-learning-web-api-ASP.NetCore8\\HPlusSport.API\\HPlusSport.API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\jroyc\\.nuget\\packages\\asp.versioning.abstractions\\8.1.0\\asp.versioning.abstractions.8.1.0.nupkg.sha512",
+    "C:\\Users\\jroyc\\.nuget\\packages\\asp.versioning.http\\8.1.0\\asp.versioning.http.8.1.0.nupkg.sha512",
+    "C:\\Users\\jroyc\\.nuget\\packages\\asp.versioning.mvc\\8.1.0\\asp.versioning.mvc.8.1.0.nupkg.sha512",
     "C:\\Users\\jroyc\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.8\\microsoft.entityframeworkcore.8.0.8.nupkg.sha512",
     "C:\\Users\\jroyc\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.8\\microsoft.entityframeworkcore.abstractions.8.0.8.nupkg.sha512",
     "C:\\Users\\jroyc\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\8.0.8\\microsoft.entityframeworkcore.analyzers.8.0.8.nupkg.sha512",
