@@ -52,6 +52,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+var apiVersionSet = app.NewApiVersionSet()
+    .HasApiVersion(new ApiVersion(1, 0))
+    .HasApiVersion(new ApiVersion(2, 0))
+    .ReportApiVersions()
+    .Build();
+
 using (var scope = app.Services.CreateScope()) 
 {
     var db = scope.ServiceProvider.GetRequiredService<ShopContext>();
@@ -60,7 +66,6 @@ using (var scope = app.Services.CreateScope())
 
 app.MapGet("/products", async (ShopContext _context, [AsParameters] ProductQueryParameters queryParameters) =>
 {
-    //return await _context.Products.ToArrayAsync();
     IQueryable<Product> products = _context.Products;
 
     if (queryParameters.MinPrice != null)
@@ -110,6 +115,21 @@ app.MapGet("/products", async (ShopContext _context, [AsParameters] ProductQuery
 
     return Results.Ok(await products.ToArrayAsync());
 });
+
+
+app.MapGet("/allproducts", async(ShopContext _context) =>
+{
+    return await _context.Products.ToArrayAsync();
+})
+    .WithApiVersionSet(apiVersionSet)
+    .MapToApiVersion(new ApiVersion(1, 0));
+
+app.MapGet("/allproducts", async (ShopContext _context) =>
+{
+    return await _context.Products.Where(p => p.IsAvailable == true).ToArrayAsync();
+})
+    .WithApiVersionSet(apiVersionSet)
+    .MapToApiVersion(new ApiVersion(2, 0));
 
 app.MapGet("/products/{id}", async (int id, ShopContext _context) =>
 {
